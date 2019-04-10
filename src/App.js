@@ -3,17 +3,30 @@ import './App.css';
 import Person from './Person/Person';
 
 class App extends Component {
+  state = {
+    persons: [
+      { name: 'James', age: 36 },
+      { name: 'Caryn', age: 39 },
+      { name: 'Gabriel', age: 2 }
+    ],
+  }
+
+  switchNameHandler = () => {
+    console.log('Was clicked!')
+  }
+
   render() {
     // JSX must have one root element
     // So various elements need to be included within the div
     // e.g. both h1 elements here
     return (
       <div className="App">
-      <h1>Hi, I'm a React App</h1>
-      <h1>Another heading</h1>
-      <Person name="James" age="36" />
-      <Person name="Caryn" age="39" />
-      <Person name="Gabriel" age="2" >My Hobbies: BibleMan, Superheroes!</Person>
+        <h1>Hi, I'm a React App</h1>
+        <h1>Another heading</h1>
+        <button onClick={this.switchNameHandler}>Switch name</button>
+        <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
+        <Person name={this.state.persons[1].name} age={this.state.persons[1].age} />
+        <Person name={this.state.persons[2].name} age={this.state.persons[2].age} >My Hobbies: BibleMan, Superheroes!</Person>
       </div>
     );
     
