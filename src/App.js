@@ -1,36 +1,44 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
 
-const app = (props) => {
-  // useState returns an array of 2 elements
-  // 1. Current state
-  // 2. A function that allows us to update this state
-  const [personsState, setPersonsState] = useState({
+// App is a stateful component as it manages state
+// Also known as smart components or container components
+class App extends Component {
+  state = {
     persons: [
       { name: 'James', age: 36 },
       { name: 'Caryn', age: 39 },
       { name: 'Gabriel', age: 2 }
     ]
-  });
+  };
 
-  // Can pass in string, object, number, boolean
-  // Can have as many useState calls as u want
-  const [otherState, setOtherState] = useState('some other value');
-
-  console.log(personsState, otherState);
-
-  const switchNameHandler = () => {
+  switchNameHandler = (newName) => {
     // console.log('Was clicked!')
     // DON'T DO THIS!!! MUTATE STATE DIRECTLY!!! personsState.persons[0].name = "James Andrew Hughes"
-    setPersonsState({
+    this.setState({
       persons: [
-        { name: 'James Andrew Hughes', age: 36 },
+        { name: newName, age: 36 },
         { name: 'Caryn', age: 27 },
         { name: 'Gabriel', age: 2 }
       ]
     })
   }
+
+  nameChangedHandler = (event) => {
+    this.setState({
+      persons: [
+        { name: 'James', age: 36 },
+        { name: event.target.value, age: 27 },
+        { name: 'Gabriel', age: 2 }
+      ]
+    })
+  }
+
+  // Note 2 different syntax examples for passing arguments
+  // 2 e.g.'s on line 40 and on line 52
+
+  render() {
     // JSX must have one root element
     // So various elements need to be included within the div
     // e.g. both h1 elements here
@@ -38,23 +46,28 @@ const app = (props) => {
       <div className="App">
         <h1>Hi, I'm a React App</h1>
         <h1>Another heading</h1>
-        <button onClick={switchNameHandler}>Switch name</button>
+        <button onClick={() => this.switchNameHandler('Reginald')}>Switch name</button>
         <Person 
-          name={personsState.persons[0].name} 
-          age={personsState.persons[0].age} 
+          name={this.state.persons[0].name}
+          age={this.state.persons[0].age}
         />
         <Person 
-          name={personsState.persons[1].name} 
-          age={personsState.persons[1].age} 
+          name={this.state.persons[1].name}
+          age={this.state.persons[1].age}
+          changed={this.nameChangedHandler}
         />
         <Person 
-          name={personsState.persons[2].name} 
-          age={personsState.persons[2].age} 
-        >
-          My Hobbies: BibleMan, Superheroes!
+          name={this.state.persons[2].name}
+          age={this.state.persons[2].age}
+          click={this.switchNameHandler.bind(this, 'Tennessee')} >My Hobbies: BibleMan, Superheroes!
         </Person>
       </div>
     );
+    
+    // Can pass methods as props as you can see above with switchNameHandler
+    // being passed to click property
+    // Can pass click handlers from child components to Parent components
+    // as child component doesn't have access to the state
     
     // If you don't use JSX you would need to create react elements as so:
     // createElement takes at least 3 args
@@ -64,26 +77,6 @@ const app = (props) => {
 
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'))
   }
+}
 
-export default app;
-
-// state = {
-//   persons: [
-//     { name: 'James', age: 36 },
-//     { name: 'Caryn', age: 39 },
-//     { name: 'Gabriel', age: 2 }
-//   ],
-//   otherState: 'some other value'
-// }
-
-// switchNameHandler = () => {
-//   // console.log('Was clicked!')
-//   // DON'T DO THIS!!! MUTATE STATE DIRECTLY!!! personsState.persons[0].name = "James Andrew Hughes"
-//   this.setState({
-//     persons: [
-//       { name: 'James Andrew Hughes', age: 36 },
-//       { name: 'Caryn', age: 27 },
-//       { name: 'Gabriel', age: 2 }
-//     ]
-//   })
-// }
+export default App;
