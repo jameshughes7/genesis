@@ -1,21 +1,29 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import Person from './Person/Person';
 
-class App extends Component {
-  state = {
+const app = (props) => {
+  // useState returns an array of 2 elements
+  // 1. Current state
+  // 2. A function that allows us to update this state
+  const [personsState, setPersonsState] = useState({
     persons: [
       { name: 'James', age: 36 },
       { name: 'Caryn', age: 39 },
       { name: 'Gabriel', age: 2 }
-    ],
-    otherState: 'some other value'
-  }
+    ]
+  });
 
-  switchNameHandler = () => {
+  // Can pass in string, object, number, boolean
+  // Can have as many useState calls as u want
+  const [otherState, setOtherState] = useState('some other value');
+
+  console.log(personsState, otherState);
+
+  const switchNameHandler = () => {
     // console.log('Was clicked!')
-    // DON'T DO THIS!!! MUTATE STATE DIRECTLY!!! this.state.persons[0].name = "James Andrew Hughes"
-    this.setState({
+    // DON'T DO THIS!!! MUTATE STATE DIRECTLY!!! personsState.persons[0].name = "James Andrew Hughes"
+    setPersonsState({
       persons: [
         { name: 'James Andrew Hughes', age: 36 },
         { name: 'Caryn', age: 27 },
@@ -23,8 +31,6 @@ class App extends Component {
       ]
     })
   }
-
-  render() {
     // JSX must have one root element
     // So various elements need to be included within the div
     // e.g. both h1 elements here
@@ -32,10 +38,21 @@ class App extends Component {
       <div className="App">
         <h1>Hi, I'm a React App</h1>
         <h1>Another heading</h1>
-        <button onClick={this.switchNameHandler}>Switch name</button>
-        <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
-        <Person name={this.state.persons[1].name} age={this.state.persons[1].age} />
-        <Person name={this.state.persons[2].name} age={this.state.persons[2].age} >My Hobbies: BibleMan, Superheroes!</Person>
+        <button onClick={switchNameHandler}>Switch name</button>
+        <Person 
+          name={personsState.persons[0].name} 
+          age={personsState.persons[0].age} 
+        />
+        <Person 
+          name={personsState.persons[1].name} 
+          age={personsState.persons[1].age} 
+        />
+        <Person 
+          name={personsState.persons[2].name} 
+          age={personsState.persons[2].age} 
+        >
+          My Hobbies: BibleMan, Superheroes!
+        </Person>
       </div>
     );
     
@@ -47,6 +64,26 @@ class App extends Component {
 
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'))
   }
-}
 
-export default App;
+export default app;
+
+// state = {
+//   persons: [
+//     { name: 'James', age: 36 },
+//     { name: 'Caryn', age: 39 },
+//     { name: 'Gabriel', age: 2 }
+//   ],
+//   otherState: 'some other value'
+// }
+
+// switchNameHandler = () => {
+//   // console.log('Was clicked!')
+//   // DON'T DO THIS!!! MUTATE STATE DIRECTLY!!! personsState.persons[0].name = "James Andrew Hughes"
+//   this.setState({
+//     persons: [
+//       { name: 'James Andrew Hughes', age: 36 },
+//       { name: 'Caryn', age: 27 },
+//       { name: 'Gabriel', age: 2 }
+//     ]
+//   })
+// }
