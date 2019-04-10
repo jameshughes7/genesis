@@ -25,6 +25,16 @@ class App extends Component {
     })
   }
 
+  nameChangedHandler = (event) => {
+    this.setState({
+      persons: [
+        { name: 'James', age: 36 },
+        { name: event.target.value, age: 27 },
+        { name: 'Gabriel', age: 2 }
+      ]
+    })
+  }
+
   // Note 2 different syntax examples for passing arguments
   // 2 e.g.'s on line 40 and on line 52
 
@@ -44,6 +54,7 @@ class App extends Component {
         <Person 
           name={this.state.persons[1].name}
           age={this.state.persons[1].age}
+          changed={this.nameChangedHandler}
         />
         <Person 
           name={this.state.persons[2].name}
