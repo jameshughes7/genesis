@@ -38,7 +38,15 @@ class App extends Component {
   // Note 2 different syntax examples for passing arguments
   // 2 e.g.'s on line 40 and on line 52
 
+  // Inline style being used here to style the button
   render() {
+    const style = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+      cursor: 'pointer'
+    };
     // JSX must have one root element
     // So various elements need to be included within the div
     // e.g. both h1 elements here
@@ -46,7 +54,9 @@ class App extends Component {
       <div className="App">
         <h1>Hi, I'm a React App</h1>
         <h1>Another heading</h1>
-        <button onClick={() => this.switchNameHandler('Reginald')}>Switch name</button>
+        <button
+        style={style}
+        onClick={() => this.switchNameHandler('Reginald')}>Switch name</button>
         <Person 
           name={this.state.persons[0].name}
           age={this.state.persons[0].age}
