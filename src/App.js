@@ -7,9 +7,9 @@ import Person from './Person/Person';
 class App extends Component {
   state = {
     persons: [
-      { name: 'James', age: 36 },
-      { name: 'Caryn', age: 39 },
-      { name: 'Gabriel', age: 2 }
+      { id: 'adfd', name: 'James', age: 36 },
+      { id: 'gfdsd', name: 'Caryn', age: 39 },
+      { id: 'jlijkl',name: 'Gabriel', age: 2 }
     ],
     showPersons: false
   };
@@ -39,9 +39,6 @@ class App extends Component {
     this.setState({showPersons: !doesShow});
   }
 
-  // Note 2 different syntax examples for passing arguments
-  // 2 e.g.'s on line 40 and on line 52
-
   // Inline style being used here to style the button
   render() {
     const style = {
@@ -51,9 +48,6 @@ class App extends Component {
       padding: '8px',
       cursor: 'pointer'
     };
-    // JSX must have one root element
-    // So various elements need to be included within the div
-    // e.g. both h1 elements here
 
     let persons = null;
     if (this.state.showPersons) {
@@ -63,7 +57,8 @@ class App extends Component {
             return <Person
             click={() => this.deletePersonHandler(index)}
             name={person.name}
-            age={person.age}/>
+            age={person.age}
+            key={person.id}/>
           })}
         </div>
       )
