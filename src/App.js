@@ -10,7 +10,8 @@ class App extends Component {
       { name: 'James', age: 36 },
       { name: 'Caryn', age: 39 },
       { name: 'Gabriel', age: 2 }
-    ]
+    ],
+    showPersons: false
   };
 
   switchNameHandler = (newName) => {
@@ -35,6 +36,11 @@ class App extends Component {
     })
   }
 
+  togglePersonsHandler = (event) => {
+    const doesShow = this.state.showPersons;
+    this.setState({showPersons: !doesShow});
+  }
+
   // Note 2 different syntax examples for passing arguments
   // 2 e.g.'s on line 40 and on line 52
 
@@ -56,21 +62,27 @@ class App extends Component {
         <h1>Another heading</h1>
         <button
         style={style}
-        onClick={() => this.switchNameHandler('Reginald')}>Switch name</button>
-        <Person 
-          name={this.state.persons[0].name}
-          age={this.state.persons[0].age}
-        />
-        <Person 
-          name={this.state.persons[1].name}
-          age={this.state.persons[1].age}
-          changed={this.nameChangedHandler}
-        />
-        <Person 
-          name={this.state.persons[2].name}
-          age={this.state.persons[2].age}
-          click={this.switchNameHandler.bind(this, 'Tennessee')} >My Hobbies: BibleMan, Superheroes!
-        </Person>
+        onClick={this.togglePersonsHandler}>Toggle Persons</button>
+        {
+          this.state.showPersons === true ?
+          <div>
+            <Person 
+              name={this.state.persons[0].name}
+              age={this.state.persons[0].age}
+            />
+            <Person 
+              name={this.state.persons[1].name}
+              age={this.state.persons[1].age}
+              changed={this.nameChangedHandler}
+            />
+            <Person 
+              name={this.state.persons[2].name}
+              age={this.state.persons[2].age}
+              click={this.switchNameHandler.bind(this, 'Tennessee')} >My Hobbies: BibleMan, Superheroes!
+            </Person>
+          </div> : null
+        }
+        
       </div>
     );
     
