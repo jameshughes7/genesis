@@ -56,16 +56,11 @@ class App extends Component {
     // JSX must have one root element
     // So various elements need to be included within the div
     // e.g. both h1 elements here
-    return (
-      <div className="App">
-        <h1>Hi, I'm a React App</h1>
-        <h1>Another heading</h1>
-        <button
-        style={style}
-        onClick={this.togglePersonsHandler}>Toggle Persons</button>
-        {
-          this.state.showPersons === true ?
-          <div>
+
+    let persons = null;
+    if (this.state.showPersons) {
+      persons = (
+        <div>
             <Person 
               name={this.state.persons[0].name}
               age={this.state.persons[0].age}
@@ -80,9 +75,18 @@ class App extends Component {
               age={this.state.persons[2].age}
               click={this.switchNameHandler.bind(this, 'Tennessee')} >My Hobbies: BibleMan, Superheroes!
             </Person>
-          </div> : null
-        }
-        
+          </div>
+      )
+    }
+
+    return (
+      <div className="App">
+        <h1>Hi, I'm a React App</h1>
+        <h1>Another heading</h1>
+        <button
+        style={style}
+        onClick={this.togglePersonsHandler}>Toggle Persons</button>
+        {persons}
       </div>
     );
     
