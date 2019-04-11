@@ -2,20 +2,98 @@ import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
 
+// App is a stateful component as it manages state
+// Also known as smart components or container components
 class App extends Component {
+  state = {
+    persons: [
+      { id: 'adfd', name: 'James', age: 36 },
+      { id: 'gfdsd', name: 'Caryn', age: 39 },
+      { id: 'jlijkl',name: 'Gabriel', age: 2 }
+    ],
+    showPersons: false
+  };
+
+  nameChangedHandler = (event, id) => {
+    // Find Index of person matching the id passsed in as arg
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
+    })
+    
+    // Copy of person object
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+
+    // Alternative syntax to spread operator above is this:
+    // const person = Object.assign({}, this.state.persons[personIndex])
+
+    // person's name being assigned value of target value
+    person.name = event.target.value;
+
+    // person at personIndex assigned value of person, which is person target value
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState( {persons: persons} );
+  }
+
+  deletePersonHandler = (personIndex) => {
+    // 2 options below showing how to copy an array:
+    // Option 1 to use slice() with no argument
+    // Option 2 to use spread operator
+    // const persons = this.state.persons.slice();
+    const persons = [...this.state.persons]
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons});
+  }
+
+  togglePersonsHandler = (event) => {
+    const doesShow = this.state.showPersons;
+    this.setState({showPersons: !doesShow});
+  }
+
+  // Inline style being used here to style the button
   render() {
-    // JSX must have one root element
-    // So various elements need to be included within the div
-    // e.g. both h1 elements here
+    const style = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+      cursor: 'pointer'
+    };
+
+    let persons = null;
+    if (this.state.showPersons) {
+      persons = (
+        <div>
+          {this.state.persons.map((person, index) => {
+            return <Person
+            click={() => this.deletePersonHandler(index)}
+            name={person.name}
+            age={person.age}
+            key={person.id}
+            changed={(event) =>this.nameChangedHandler(event, person.id)}/>
+          })}
+        </div>
+      )
+    }
+
     return (
       <div className="App">
-      <h1>Hi, I'm a React App</h1>
-      <h1>Another heading</h1>
-      <Person name="James" age="36" />
-      <Person name="Caryn" age="39" />
-      <Person name="Gabriel" age="2" >My Hobbies: BibleMan, Superheroes!</Person>
+        <h1>Hi, I'm a React App</h1>
+        <h1>Another heading</h1>
+        <button
+        style={style}
+        onClick={this.togglePersonsHandler}>Toggle Persons</button>
+        {persons}
       </div>
     );
+    
+    // Can pass methods as props as you can see above with switchNameHandler
+    // being passed to click property
+    // Can pass click handlers from child components to Parent components
+    // as child component doesn't have access to the state
     
     // If you don't use JSX you would need to create react elements as so:
     // createElement takes at least 3 args
