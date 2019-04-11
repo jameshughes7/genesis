@@ -15,6 +15,7 @@ class App extends Component {
   };
 
   nameChangedHandler = (event, id) => {
+    // Find Index of person matching the id passsed in as arg
     const personIndex = this.state.persons.findIndex(p => {
       return p.id === id;
     })
@@ -27,8 +28,10 @@ class App extends Component {
     // Alternative syntax to spread operator above is this:
     // const person = Object.assign({}, this.state.persons[personIndex])
 
+    // person's name being assigned value of target value
     person.name = event.target.value;
 
+    // person at personIndex assigned value of person, which is person target value
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
